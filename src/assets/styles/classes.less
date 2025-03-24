@@ -1,0 +1,140 @@
+/* You can add global styles to this file, and also import other style files */
+@presets:none initial inherit revert revert-layer unset;
+
+.mixinPresets(@prop,@prefix) {
+  each(@presets, {
+    @value2: if(isnumber(@value), @value * 1px, @value);
+    .@{prefix}-@{value} {
+      @{prop}: @value2;
+    }
+    .@{prefix}-@{value}-i {
+      @{prop}: @value2!important;
+    }
+  });
+}
+@horizontalAligns: left center right justify;
+.mixinPresets(text-align,hor);
+each(@horizontalAligns, {
+  .hor-@{value} {
+    text-align: @value;
+  }
+});
+
+@verticalAligns: top middle bottom;
+.mixinPresets(vertical-align,ver);
+each(@verticalAligns, {
+  .ver-@{value} {
+    vertical-align: @value;
+  }
+});
+
+@flexes: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 auto;
+.mixinPresets(flex,flex);
+each(@flexes, {
+  .flex-@{value} {
+    flex: @value;
+  }
+  .flex-@{value}-i {
+    flex: @value!important;
+  }
+});
+
+.flexable {
+  display: flex;
+
+  &.--wrap {
+    flex-wrap: wrap;
+  }
+
+  @alignItems: stretch center flex-start flex-end baseline;
+  .mixinPresets(align-items,align);
+  each(@alignItems, {
+    .align-@{value} {
+      align-items: @value;
+    }
+  });
+  @justifyContent: flex-start center flex-end space-between space-around space-evenly;
+  .mixinPresets(justify-content,justify);
+  each(@justifyContent, {
+    .justify-@{value} {
+      justify-content: @value;
+    }
+  });
+}
+
+@fontSizes: 12 13 14 15 16 18 20 24 28 32 36 40 48 56 64 72 80 88 96;
+.mixinPresets(font-size,fs);
+each(@fontSizes,{
+  @value2: @value * 1px;
+  .fs-@{value}{
+    font-size: @value2;
+    &-i{
+      font-size: @value2!important;
+    }
+  }
+  .fs-@{value}-i{
+    font-size: @value2!important;
+  }
+});
+
+/** gap, margin, padding */
+@spaces: 0 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100;
+@spacesEdges: {
+  t: block-start;
+  b: block-end;
+  v: block;
+  l: inline-start;
+  r: inline-end;
+  h: inline;
+};
+@spacesIndecators: {
+  m: margin;
+  p: padding;
+  gap: gap;
+};
+
+.mixinSpaces(@prop,@prefix,@value) {
+  @value2: if(isnumber(@value), @value * 1px, @value);
+  .@{prefix}-@{value} {
+    @{prop}: @value2;
+  }
+  .@{prefix}-@{value}-i {
+    @{prop}: @value2!important;
+  }
+}
+
+each(@spacesIndecators,.(@main,@prefix) {
+  .mixinPresets(@main,@prefix);
+  .mixinSpaces(@main,@prefix,auto);
+  each(@spacesEdges, .(@sub,@edge){
+    .mixinPresets(~"@{main}-@{sub}" ,~"@{prefix}@{edge}");
+    each(@spaces,.(@value){
+      .mixinSpaces(~"@{main}-@{sub}" ,~"@{prefix}@{edge}", @value);
+    });
+  });
+});
+
+each(@spaces,{
+.mixinSpaces(gap, gap, @value)
+});
+
+each(range(0, 100, 1), {
+  .z-@{value} {
+    z-index: @value;
+  }
+  .z-@{value}-i {
+    z-index: @value!important;;
+  }
+  .lh-@{value} {
+    line-height: @value;
+  }
+  .lh-@{value}-i {
+    line-height: @value!important;;
+  }
+  .lh-@{value}-px {
+    line-height: @value*1px;
+  }
+  .lh-@{value}-px-i {
+    line-height: @value*1px!important;
+  }
+});
