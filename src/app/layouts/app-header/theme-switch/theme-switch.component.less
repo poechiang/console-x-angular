@@ -1,0 +1,48 @@
+:host {
+  cursor: pointer;
+  background-color: #0000001f;
+  border-radius: 13px;
+  position: relative;
+  border: 1px solid transparent;
+  box-shadow: unset;
+
+  .bullet {
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 50%;
+    transition:
+      left 0.2s 0.1s ease-in-out,
+      opacity 0.2s 0.1s ease-in-out;
+    top: 2px;
+    opacity: 0;
+
+    &.sun {
+      background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+      box-shadow: 0 0 5px #ff0080;
+      filter: none;
+      opacity: 1;
+    }
+
+    &.moon {
+      background: transparent;
+      box-shadow:
+        inset -3px -3px 5px -2px #8983f7,
+        inset -4px -4px 0px 0px #a3daff;
+      filter: drop-shadow(0 0 2px #8983f7);
+    }
+  }
+
+  &:not(.disabled).checked {
+    .bullet.sun {
+      opacity: 0;
+    }
+    .bullet.moon {
+      opacity: 1;
+    }
+  }
+
+  &.disabled {
+    filter: grayscale(1);
+    cursor: not-allowed;
+  }
+}

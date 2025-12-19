@@ -1,0 +1,22 @@
+<cx-page-body [style.margin-block.px]="20" [style.margin-inline]="'auto'" [style.width.%]="50">
+  <h2 class="hor-center">登录</h2>
+
+  <div class="flexable --justify-center --align-flex-start mt-20" [style.gap.px]="24">
+    <nz-qrcode nzValue="https://ng.ant.design/" nzIcon="logo.svg" nzLevel="H"></nz-qrcode>
+    <cx-form
+      [cxAutoPlaceholder]="true"
+      [style.width.px]="296"
+      [cxFormSchema]="formSchema"
+      (submit)="submitForm($event)"
+      [cxReset]="null"
+      cxSubmit="登录"
+    >
+    </cx-form>
+  </div>
+
+  <div class="flexable --justify-flex-end">还没有帐号？ <a href="/auth/register">立即注册</a></div>
+</cx-page-body>
+
+<ng-template #captchaTpl>
+  <cx-captcha [style.width.px]="100" [cxUrl]="'auth/captcha'" (onCodeChange)="handleVerifCodeChange($event)"></cx-captcha>
+</ng-template>

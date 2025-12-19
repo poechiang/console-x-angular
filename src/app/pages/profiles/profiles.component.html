@@ -1,0 +1,21 @@
+<aside>
+  <nav>
+    <ul nz-menu nzMode="inline">
+      <li nz-menu-item [routerLink]="'./'" nzMatchRouter [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+        <span nz-icon nzType="user" nzTheme="outline"></span>
+        <span>Profile</span>
+      </li>
+    </ul>
+  </nav>
+</aside>
+<main [style.flex]="'auto'">
+  <cx-form
+    [cxAutoPlaceholder]="true"
+    [cxFormSchema]="formSchema"
+    (valueChange)="handleValueChange($event)"
+    (submit)="submitForm($event)"
+    [cxReset]="null"
+    cxSubmit="登录"
+  >
+  </cx-form>
+</main>

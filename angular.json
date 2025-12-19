@@ -12,8 +12,6 @@
         "@schematics/angular:component": {
           "style": "less",
           "skipTests": true,
-          "inlineStyle": true,
-          "inlineTemplate": true,
           "changeDetection": "OnPush",
           "prefix": "cx"
         },
@@ -52,12 +50,33 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
+              "src/assets/i18n/",
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
               }
             ],
-            "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "src/styles.less"],
+            "styles": [
+              "src/styles.less",
+              {
+                "input": "src/assets/styles/light.less",
+                "bundleName": "light",
+                "inject": false
+              },
+              {
+                "input": "src/assets/styles/dark.less",
+                "bundleName": "dark",
+                "inject": false
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/styles/themes"]
+            },
             "scripts": []
           },
           "configurations": {

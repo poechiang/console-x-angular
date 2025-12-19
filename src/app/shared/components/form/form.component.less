@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  ::ng-deep .ant-form-item {
+    .ant-form-item-label {
+      position: relative;
+      padding-bottom: 0px;
+      top: 0;
+      transition: all 0.3s;
+      & > label {
+        &::before {
+          opacity: 0;
+        }
+        &::after {
+          content: '(选填)';
+        }
+        color: inherit;
+        transition: color 0.3s;
+
+        &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
+          padding-left: 11.09px;
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+    .ant-form-item-control .ant-otp {
+      transition: all 0.3s;
+      column-gap: 8px;
+      .ant-otp-input {
+        transition: all 0.3s;
+        border-inline-width: 1px;
+        width: 32px;
+      }
+    }
+    &.auto-placeholder {
+      &.ng-empty:not(:focus-within) {
+        .ant-form-item-label {
+          top: 27px;
+          pointer-events: none;
+          z-index: 1;
+          & > label {
+            color: #d6d6d6;
+          }
+        }
+
+        .ant-form-item-control .ant-otp {
+          column-gap: 0px;
+
+          .ant-otp-input {
+            &:first-child {
+              width: 152px;
+            }
+            &:not(:first-child) {
+              padding-inline: 0;
+              border-inline-width: 0;
+              width: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .cx-form-help {
+    font-size: 12px;
+    color: #999;
+    line-height: calc(1.5em - 2px);
+    padding-block: calc((32px - 1.5em) / 2);
+    padding-inline: 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    .help-icon {
+      display: none;
+      margin-top: calc(0.75em - 7px);
+      &.normal {
+        display: inline-flex;
+      }
+    }
+  }
+  .ant-form-item-has-error .cx-form-help {
+    color: #ff5722;
+    background-color: #ff57222b;
+    border-color: #ff57227f;
+    .help-icon {
+      display: none;
+      &.error {
+        display: inline-flex;
+      }
+    }
+  }
+  .ant-form-item-has-success .cx-form-help {
+    color: #67c23a;
+    background-color: #67c23a2b;
+    border-color: #67c23a7f;
+    .help-icon {
+      display: none;
+      &.success {
+        display: inline-flex;
+      }
+    }
+  }
+}
