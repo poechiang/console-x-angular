@@ -1,0 +1,12 @@
+.themeMixin(@rules) {
+  html {
+    &.light {
+      @import './light.less';
+      @rules();
+    }
+    &.dark {
+      @import './dark.less';
+      @rules();
+    }
+  }
+}

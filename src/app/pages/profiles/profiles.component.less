@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  margin: auto;
+  padding: 16px;
+  gap: 48px;
+  max-width: 800px;
+
+  aside nav ::ng-deep .ant-menu > .ant-menu-item {
+    overflow: visible;
+    border-radius: 6px;
+    padding: 0 24px;
+    &::after {
+      left: -15px;
+      top: 50%;
+      border: 3px solid #fd31c6;
+      transform: translateY(-50%) scale(0);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    &.active::after {
+      transform: translateY(-50%) scale(1);
+      opacity: 1;
+    }
+  }
+
+  main .ant-form ::ng-deep .ant-form-item {
+    width: fit-content;
+    .ant-form-item-label {
+      position: relative;
+      top: 0;
+      transition: all 0.3s;
+      & > label {
+        &::before {
+          opacity: 0;
+        }
+        &::after {
+          content: '(选填)';
+        }
+        color: inherit;
+        transition: color 0.3s;
+      }
+    }
+
+    &:has(.ng-empty):not(:focus-within) .ant-form-item-label {
+      top: 35px;
+      pointer-events: none;
+      z-index: 1;
+      & > label {
+        color: #d6d6d6;
+      }
+    }
+  }
+  .avatar-uploader {
+    width: fit-content;
+    margin-left: 64px;
+    float: right;
+  }
+}

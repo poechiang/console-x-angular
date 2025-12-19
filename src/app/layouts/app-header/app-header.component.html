@@ -1,0 +1,28 @@
+<ng-content select="[web-logo]"></ng-content>
+<h1 class="mb-0">Console <sup [style.color]="'red'">X</sup></h1>
+<span class="flex-auto">
+  <ng-content></ng-content>
+</span>
+<button nz-button class="cx-app-header-clickable" nzType="text">
+  <nz-icon nzType="global" nzTheme="outline" />
+</button>
+<cx-theme-switch></cx-theme-switch>
+@if (auth.me) {
+  <button nz-button class="cx-app-header-clickable" nzType="text" nz-dropdown [nzDropdownMenu]="menu">
+    <nz-avatar class="mr-4" nzIcon="user" [nzSrc]="auth.me.avatarUrl ?? '//picsum.photos/200'"></nz-avatar>
+    {{ auth.me.userName }}
+    <nz-icon class="ml-16" nzType="down" />
+  </button>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item (click)="router.navigate(['/profiles'])">{{ '用户中心' | translate }}</li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item nzDanger (click)="auth.logout()">{{ '退出' | translate }}</li>
+    </ul>
+  </nz-dropdown-menu>
+} @else {
+  <button nz-button class="cx-app-header-clickable" nzType="text" (click)="router.navigate(['/auth/register'])">
+    <nz-icon nzType="user" nzTheme="outline" />
+  </button>
+}

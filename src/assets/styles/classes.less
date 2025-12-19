@@ -47,16 +47,16 @@ each(@flexes, {
   }
 
   @alignItems: stretch center flex-start flex-end baseline;
-  .mixinPresets(align-items,align);
+  .mixinPresets(align-items,--align);
   each(@alignItems, {
-    .align-@{value} {
+    &.--align-@{value} {
       align-items: @value;
     }
   });
   @justifyContent: flex-start center flex-end space-between space-around space-evenly;
-  .mixinPresets(justify-content,justify);
+  .mixinPresets(justify-content,--justify);
   each(@justifyContent, {
-    .justify-@{value} {
+    &.--justify-@{value} {
       justify-content: @value;
     }
   });
