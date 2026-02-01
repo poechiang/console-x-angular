@@ -1,12 +1,16 @@
 {
   "name": "console-x-angular-ng",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "version:alpha": "standard-version -- --prerelease alpha",
+    "version:beta": "standard-version -- --prerelease beta",
+    "version:rc": "standard-version -- --prerelease rc",
+    "version": "standard-version"
   },
   "private": true,
   "dependencies": {
@@ -18,10 +22,12 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@ant-design/icons-angular": "^19.0.0",
+    "@jeffchi/logger": "4.2.0-alpha.3",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "ng-zorro-antd": "19.1.0",
     "rxjs": "~7.8.2",
+    "standard-version": "^9.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
