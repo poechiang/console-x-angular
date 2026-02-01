@@ -10,7 +10,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 
 import { CxUploadComponent } from '@com/cx-upload.component';
 import { CxLf2brPipe } from '@pip/lf2br.pipe';
@@ -33,7 +33,7 @@ import { CxFormWidthPipe } from './pipes/form-width.pipe';
     NzInputModule,
     NzSelectModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NgTemplateOutlet,
     NzDividerModule,
     NzSpaceModule,

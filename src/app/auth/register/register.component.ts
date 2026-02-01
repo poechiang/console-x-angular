@@ -23,7 +23,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { Subject } from 'rxjs';
 import { userFormSchema } from './schema';
 @Component({
@@ -38,7 +38,7 @@ import { userFormSchema } from './schema';
     NzInputModule,
     NzSelectModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CxFormModule,
   ],
   templateUrl: './register.component.html',

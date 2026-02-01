@@ -14,7 +14,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'cx-login',
@@ -29,7 +29,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzSelectModule,
     NzSpaceModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     CxFormModule,
     NzQRCodeModule,
     CxCaptchaComponent,
