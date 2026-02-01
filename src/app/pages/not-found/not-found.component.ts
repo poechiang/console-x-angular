@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CxPageBodyComponent } from '@com/page-body/page-body.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -21,10 +21,9 @@ import { NzResultModule } from 'ng-zorro-antd/result';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CxNotFoundComponent {
-  constructor(private router: Router) {
-    console.log('not-found works!');
-  }
+  #router = inject(Router);
+
   goHome() {
-    this.router.navigateByUrl('/overview/dashboard');
+    this.#router.navigateByUrl('/overview/dashboard');
   }
 }

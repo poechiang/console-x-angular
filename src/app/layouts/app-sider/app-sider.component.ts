@@ -56,7 +56,6 @@ export class CxAppSiderComponent implements OnInit, OnDestroy {
   private calcMenuState(menus: any[], url: string) {
     let selected = false;
     menus.forEach(menu => {
-      console.log();
       if (!menu.children) {
         menu.selected = menu.link ? url.includes(menu.link) : false;
         if (menu.selected) {

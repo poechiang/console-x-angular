@@ -6,6 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
+    canDeactivate: [AuthGuard],
     loadChildren: () => import('./pages/pages.routes'),
   },
   {

@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@ant-design/icons-angular": "^19.0.0",
-    "@jeffchi/logger": "4.2.0-alpha.3",
+    "@jeffchi/logger": "4.2.3",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "ng-zorro-antd": "19.1.0",

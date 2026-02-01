@@ -1,169 +1,96 @@
-import { EventEmitter, inject, Injectable } from '@angular/core';
-import merge from '@lib/utils/merge';
-import { pickBy } from '@utl/pickBy';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpError, HttpsClient, HttpsOptions } from '@lib/HttpClient.class';
+import { Storage } from '@lib/Storage.class';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable } from 'rxjs';
-import { Storage } from 'src/app/libs/Storage.class';
+import { lastValueFrom, map } from 'rxjs';
 
-type HttpsOptions = RequestInit & {
-  feedbackOnError?: boolean;
-};
-const STATUS_CODE_MAP: Record<number, string> = {
-  401: '未授权，请登录',
-  403: '没有权限',
-  404: '请求地址不存在',
-  500: '服务器异常',
-  502: '网关异常',
-  503: '服务不可用',
-};
 @Injectable({
   providedIn: 'root',
 })
 export class HttpsService {
-  #domain = 'http://localhost:10010';
-  #version = 'api/v1';
   #notify = inject(NzNotificationService);
-  #config: HttpsOptions = {
+  #router = inject(Router);
+  #refreshing = false;
+  #http = HttpsClient.config({
+    domain: 'http://localhost',
+    port: 10010,
+    path: '/api/v1',
     mode: 'cors',
-    credentials: 'include',
-  };
+    // credentials: 'include',
+  });
 
-  get config() {
-    return this.#config;
+  #onError(err: HttpError) {
+    const { code, message, context: { url, path } = {}, suggestions = '' } = err ?? {};
+
+    console.log(`Error happened!!!,for url ${url}, with code ${code}`, err.context, err);
+    if (code === 401 && !url?.endsWith('/auth/refresh')) {
+      if (!this.#refreshing) {
+        this.#refreshToken();
+      }
+
+      return this.#waitForRefresh(url!, err.context?.options);
+    }
+
+    const content = [message, suggestions].filter(Boolean).join('<br/>');
+    return lastValueFrom(this.#notify.error(`[${code}] ${content}`, path!, { nzClass: 'http-notify' }).onClose.pipe(map(() => null)));
   }
 
-  set config(value: any) {
-    this.#config = merge({}, this.#config, value);
+  resolvers: ((arg0?: any) => void)[][] = [];
+  #refreshToken() {
+    this.#refreshing = true;
+    console.log('Refreshing token...');
+    this.#http
+      .post('/auth/refresh', {}, { credentials: 'include' })
+      .then(token => {
+        Storage.session('token', token, 1200000);
+        console.log('Token refreshed, and retrying requests...');
+        this.resolvers.forEach(([resolve]) => resolve());
+        this.resolvers = [];
+      })
+      .catch(err => {
+        this.resolvers.forEach(([_, reject]) => reject(new Error('Refresh token failed')));
+        console.log('Refresh token failed, redirecting to login page...');
+        Storage.local('me', null);
+        Storage.session('token', null);
+        this.#router.navigateByUrl(`/auth/login`);
+      })
+      .finally(() => {
+        this.#refreshing = false;
+        this.resolvers = [];
+      });
   }
 
-  #onNetworkFeedback = new EventEmitter<Response>(true);
+  #waitForRefresh(url: string, options?: HttpsOptions) {
+    return new Promise<void>((resolve, reject) => {
+      this.resolvers.push([resolve, reject]);
+    }).then((): any => {
+      console.log(`Retrying requests for ${url} with options:`, options);
+      return this.#http.fetch(url, options).catch(this.#onError.bind(this));
+    });
+  }
 
-  get onNextworkFeedback() {
-    return this.#onNetworkFeedback as Observable<Response>;
+  async get(url: string, query?: any, options?: HttpsOptions) {
+    return await this.#http.get(url, query, options).catch(this.#onError.bind(this));
+  }
+
+  async post(url: string, params?: any, options?: HttpsOptions) {
+    return await this.#http.post(url, params, options).catch(this.#onError.bind(this));
   }
 
   async head(url: string) {
-    const fullUrl = this.parseUrl(url);
-    const finalOptions = this.parseOptions({ method: 'HEAD' });
-    const res = await this.doInvoke(fullUrl, finalOptions);
-
-    this.postPayloadFeedback(res);
-    return res?.code ? null : res;
-  }
-  async get(url: string, query?: Record<string, any> | null, options?: HttpsOptions) {
-    const fullUrl = this.parseUrl(url, query);
-    const finalOptions = this.parseOptions(options);
-    const res = await this.doInvoke(fullUrl, finalOptions);
-
-    this.postPayloadFeedback(res, finalOptions);
-    return res?.code ? null : (res?.payload ?? res);
-  }
-  async post<T extends Record<string, any>>(url: string, params?: T, options?: HttpsOptions) {
-    const fullUrl = this.parseUrl(url);
-    const finalOptions = this.parseOptions({
-      ...options,
-      method: 'POST',
-      body: JSON.stringify(pickBy(params ?? {})),
-    });
-    const res = await this.doInvoke(fullUrl, finalOptions);
-
-    this.postPayloadFeedback(res);
-    return res?.code ? null : (res?.payload ?? res);
+    return await this.#http.head(url).catch(this.#onError.bind(this));
   }
 
-  private parseUrl(path: string, query?: Record<string, any> | null) {
-    const [base, queryStr] = path.split('?');
-    const queryObj = (queryStr ?? '')
-      .split('&')
-      .filter(Boolean)
-      .reduce((o, kvPaire) => {
-        const [k, v] = kvPaire;
-        return { ...o, [k]: v };
-      }, query ?? {});
-
-    const finalQueryStr = Object.entries(queryObj)
-      .map(([k, v]) => `${k}=${v}`)
-      .join('&');
-    let finalPath;
-    if (base.startsWith('http')) {
-      finalPath = base;
-    } else {
-      finalPath = [this.#domain, this.#version, ...base.split('/').filter(Boolean)].join('/');
-    }
-    return [finalPath, finalQueryStr].filter(Boolean).join('?');
+  async put(url: string, params?: any, options?: HttpsOptions) {
+    return await this.#http.put(url, params, options).catch(this.#onError.bind(this));
   }
 
-  private async doInvoke(url: string, options?: HttpsOptions) {
-    try {
-      const response = await fetch(url, options);
-      return this.postNetworkFeedback(response, options);
-    } catch (e: any) {
-      if (options?.feedbackOnError !== false) {
-        this.#notify.error(`[未知异常]${e.message}`, url);
-      }
-      return null;
-    }
-  }
-  private postNetworkFeedback(response: any, options?: HttpsOptions) {
-    if (!response.ok) {
-      const showFeedback = response.status === 401 || options?.feedbackOnError !== false;
-      if (showFeedback) {
-        this.#notify
-          .error(`[${response.status}] ${this.getErrorMessage(response.status) ?? response.statusText}`, response.url)
-          .onClose.subscribe(() => {
-            this.#onNetworkFeedback.next(response);
-          });
-      } else {
-        this.#onNetworkFeedback.next(response);
-      }
-
-      return null;
-    } else {
-      return response.json();
-    }
+  async delete(url: string, options?: HttpsOptions) {
+    return await this.#http.delete(url, options).catch(this.#onError.bind(this));
   }
 
-  private postPayloadFeedback(data: any, options?: HttpsOptions) {
-    const { code, message, suggestions } = data ?? {};
-
-    if (options?.feedbackOnError !== false && code) {
-      this.#notify.error(`[${code}]${message}`, suggestions);
-    }
-  }
-
-  private parseOptions(options?: HttpsOptions): HttpsOptions {
-    let finalOptions: Partial<HttpsOptions>;
-    if (!options || typeof options === 'string') {
-      finalOptions = { method: options ?? 'GET' };
-    } else {
-      finalOptions = { ...options };
-    }
-
-    const { headers = {}, method = 'GET', ...restOptions } = options ?? {};
-    const finalHeaders: Record<string, any> = {
-      'Content-Type': 'application/json',
-      ...headers,
-    };
-
-    const token = Storage.session('token');
-    if (token) {
-      finalHeaders['Authorization'] = `Bearer ${token}`;
-    }
-    return merge({}, this.config, finalOptions, { headers: finalHeaders });
-  }
-
-  private getErrorMessage(status: number) {
-    let defMsg;
-    if (status > 500) {
-      defMsg = '服务器异常';
-    } else if (status >= 400) {
-      defMsg = '请求参数异常';
-    } else if (status >= 300) {
-      defMsg = '重定向异常';
-    } else {
-      defMsg = '网络异常';
-    }
-
-    return STATUS_CODE_MAP[status] ?? defMsg;
+  async patch(url: string, params?: any, options?: HttpsOptions) {
+    return await this.#http.patch(url, params, options).catch(this.#onError.bind(this));
   }
 }

@@ -1,15 +1,28 @@
 import { inject, Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, GuardResult, MaybeAsync, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '@srv/auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanDeactivate<any> {
+  canDeactivate(
+    component: any,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState: RouterStateSnapshot,
+  ): MaybeAsync<GuardResult> {
+    this.#authService.needHeartbeat = false;
+    return true;
+  }
   #authService = inject(AuthService);
-  canActivate() {
-    const rlt = this.#authService.me;
-    if (!rlt) {
+  async canActivate() {
+    const me = this.#authService.me;
+    if (!me) {
       window.location.href = '/auth/login';
     }
-    return !!rlt;
+
+    this.#authService.needHeartbeat = true;
+
+    await this.#authService.heartbeat();
+    return !!me;
   }
 }

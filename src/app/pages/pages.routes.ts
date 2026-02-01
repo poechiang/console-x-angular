@@ -11,6 +11,11 @@ export default [
         path: 'overview',
         loadChildren: () => import('./overview/overview.routes'),
       },
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
     ],
   },
   {

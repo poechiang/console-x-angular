@@ -1,3 +1,5 @@
+import { withTags } from '@jeffchi/logger';
+const logger = withTags('Storage');
 export abstract class Storage {
   private constructor() {}
   /**
@@ -57,15 +59,30 @@ export abstract class Storage {
       const data = JSON.parse(item);
       if (data.expire && data.expire < now) {
         sessionStorage.removeItem(key);
+
+        if (key === 'token') {
+          console.log('Session storage access token: remove', { key, value, expire });
+        }
         return null;
+      }
+
+      if (key === 'token') {
+        console.log('Session storage access token: read', { key, value, expire });
       }
       return data.value;
     } else if (value === null) {
+      if (key === 'token') {
+        console.log('Session storage access token: remove', { key, value, expire });
+      }
       sessionStorage.removeItem(key);
     } else {
       const data: any = { value };
       if (expire) {
         data.expire = now + expire;
+      }
+
+      if (key === 'token') {
+        console.log('Session storage access token: write', { key, value, expire });
       }
       sessionStorage.setItem(key, JSON.stringify(data));
     }
@@ -80,6 +97,7 @@ export abstract class Storage {
    */
   static cookie(name: string): string {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    console.log('Reading cookie:', name, 111, match, 222, document.cookie);
     return decodeURIComponent(match?.[2] ?? '');
   }
 }

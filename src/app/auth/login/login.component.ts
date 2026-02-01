@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CxCaptchaComponent } from '@com/captcha/captcha.component';
@@ -105,8 +105,14 @@ export class CxLoginComponent implements OnInit {
   async submitForm(e: { raw: any; value: any }) {
     if (await this.#auth.login(e.value)) {
       setTimeout(() => {
-        this.#router.navigateByUrl('/');
+        const redirect = this.#router.parseUrl(this.#router.url).queryParams['redirect'] ?? '/';
+        this.#router.navigateByUrl(redirect);
       });
     }
+  }
+
+  @HostListener('click')
+  handleClick() {
+    // this.#router.navigateByUrl(`/auth/login?redirect=asgbd`);
   }
 }

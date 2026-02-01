@@ -26,7 +26,6 @@ export class CxCaptchaComponent implements OnDestroy {
   }
   set url(value) {
     if (this.#url !== value) {
-      console.log('url changed', this.url, value);
       this.#url = value;
       if (value) {
         this.refresh();
@@ -66,7 +65,6 @@ export class CxCaptchaComponent implements OnDestroy {
   @HostListener('click') refresh(e?: MouseEvent) {
     this.expired = false;
     this.#cdr.markForCheck(); // 不能使用this.#cdr.detectChanges()
-    console.log(1111, e);
     this.getCaptcha();
   }
 
