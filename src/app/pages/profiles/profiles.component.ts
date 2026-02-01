@@ -7,7 +7,7 @@ import { Name20, Password16 } from '@const/regexp';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '@srv/auth.service';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -22,7 +22,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
     NzIconModule,
     NzFormModule,
     ReactiveFormsModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzIconModule,
     NzAvatarModule,
     RouterModule,

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MenuService, NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent } from 'ng-zorro-antd/menu';
 import { CxIcon } from '../core/icons/cx-icon.component';
@@ -25,7 +25,7 @@ const components = [CxAppHeaderComponent, CxThemeSwitchComponent, CxAppSiderComp
     NzMenuDirective,
     NzSubMenuComponent,
     NzMenuItemComponent,
-    NzDropDownModule,
+    NzDropdownModule,
     NzIconModule,
     NzAvatarModule,
     RouterModule,
