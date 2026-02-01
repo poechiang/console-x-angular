@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -9,7 +9,7 @@ export type CxUploadOnTouched = () => void;
 
 @Component({
   selector: 'cx-upload',
-  imports: [CommonModule, NzUploadModule, NzIconModule],
+  imports: [NzUploadModule, NzIconModule],
   template: `<nz-upload
     class="cx-uploader"
     [nzAccept]="accept"

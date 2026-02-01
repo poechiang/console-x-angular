@@ -4,107 +4,108 @@
       @if (item.divider) {
         <nz-divider></nz-divider>
       }
-      <nz-form-item
+      @if (!item.custom) {
+        <nz-form-item
         [class.auto-placeholder]="
           autoPlaceholder && !item.placeholder && ['input', 'date', 'otp', 'password', 'text', 'select'].includes(item.type ?? 'input')
         "
-        [class.ng-empty]="!form.value[item.name]"
-        nz-row
-        nzAlign="top"
-        *ngIf="!item.custom"
-      >
-        <nz-form-label [nzRequired]="true" nz-col [nzSpan]="24">{{ item.label }}</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="hasHelp ? 12 : 24" [nzErrorTip]="errorTpl">
-          <div class="flexable" [style.gap.px]="8">
-            @if (item.template) {
-              <ng-container *ngTemplateOutlet="item.template; context: { $implicit: item }"></ng-container>
-            } @else {
-              <ng-container *ngTemplateOutlet="fieldWrapTpl; context: { $implicit: item }"></ng-container>
-              <ng-template #fieldWrapTpl>
-                <!-- 如果指定了addOnBefore、prefix或suffix，则使用输入框组合 -->
-                @if (item.addOnBefore || item.prefix || item.suffix) {
-                  <nz-input-group
-                    [nzAddOnBefore]="item.addOnBefore ? addOnBefore : undefined"
-                    [nzPrefix]="item.prefix"
-                    [nzSuffix]="item.suffix"
-                    [style.width]="item | width"
-                    nzCompact
-                  >
-                    <ng-container *ngTemplateOutlet="fieldTpl; context: { $implicit: item }"></ng-container>
-                  </nz-input-group>
-                  <ng-template #addOnBefore>
-                    <ng-container *ngTemplateOutlet="item.addOnBefore; context: { $implicit: form }"></ng-container>
-                  </ng-template>
-                  <ng-template #addOnAfter>
-                    <ng-container *ngTemplateOutlet="item.addOnAfter; context: { $implicit: form }"></ng-container>
-                  </ng-template>
-                } @else {
-                  <!-- 否则使用单输入项 -->
-                  <ng-container *ngTemplateOutlet="fieldTpl; context: { $implicit: item, width: item | width }"></ng-container>
-                }
-                @if (item.addOnAfter) {
-                  <ng-container *ngTemplateOutlet="item.addOnAfter"></ng-container>
-                }
-                <ng-template #fieldTpl let-width="width">
-                  @if (item.type === 'password') {
-                    <input
-                      nz-input
-                      type="password"
-                      [formControlName]="item.name"
-                      [placeholder]="item.placeholder ?? ''"
-                      [maxlength]="item.maxLength ?? null"
-                      [style.width]="width"
-                    />
-                  } @else if (item.type === 'upload') {
-                    <cx-upload class="avatar-uploader" [cxPreview]="preview" [formControlName]="item.name" [cxShowUploadList]="false">
-                      <nz-icon class="upload-icon" [nzType]="'plus'" />
-                      <div class="ant-upload-text">Upload</div>
-                    </cx-upload>
-                    <ng-template #preview>
-                      <img [src]="form.value[item.name]" alt="avatar" style="width: 100%" />
+          [class.ng-empty]="!form.value[item.name]"
+          nz-row
+          nzAlign="top"
+          >
+          <nz-form-label [nzRequired]="true" nz-col [nzSpan]="24">{{ item.label }}</nz-form-label>
+          <nz-form-control nz-col [nzSpan]="hasHelp ? 12 : 24" [nzErrorTip]="errorTpl">
+            <div class="flexable" [style.gap.px]="8">
+              @if (item.template) {
+                <ng-container *ngTemplateOutlet="item.template; context: { $implicit: item }"></ng-container>
+              } @else {
+                <ng-container *ngTemplateOutlet="fieldWrapTpl; context: { $implicit: item }"></ng-container>
+                <ng-template #fieldWrapTpl>
+                  <!-- 如果指定了addOnBefore、prefix或suffix，则使用输入框组合 -->
+                  @if (item.addOnBefore || item.prefix || item.suffix) {
+                    <nz-input-group
+                      [nzAddOnBefore]="item.addOnBefore ? addOnBefore : undefined"
+                      [nzPrefix]="item.prefix"
+                      [nzSuffix]="item.suffix"
+                      [style.width]="item | width"
+                      nzCompact
+                      >
+                      <ng-container *ngTemplateOutlet="fieldTpl; context: { $implicit: item }"></ng-container>
+                    </nz-input-group>
+                    <ng-template #addOnBefore>
+                      <ng-container *ngTemplateOutlet="item.addOnBefore; context: { $implicit: form }"></ng-container>
                     </ng-template>
-                  } @else if (item.type === 'otp') {
-                    <nz-input-otp [formControlName]="item.name" [nzLength]="item.maxLength"></nz-input-otp>
+                    <ng-template #addOnAfter>
+                      <ng-container *ngTemplateOutlet="item.addOnAfter; context: { $implicit: form }"></ng-container>
+                    </ng-template>
                   } @else {
-                    <input
-                      nz-input
-                      [formControlName]="item.name"
-                      [placeholder]="item.placeholder ?? ''"
-                      [maxlength]="item.maxLength ?? null"
-                      [style.width]="width"
-                    />
+                    <!-- 否则使用单输入项 -->
+                    <ng-container *ngTemplateOutlet="fieldTpl; context: { $implicit: item, width: item | width }"></ng-container>
                   }
+                  @if (item.addOnAfter) {
+                    <ng-container *ngTemplateOutlet="item.addOnAfter"></ng-container>
+                  }
+                  <ng-template #fieldTpl let-width="width">
+                    @if (item.type === 'password') {
+                      <input
+                        nz-input
+                        type="password"
+                        [formControlName]="item.name"
+                        [placeholder]="item.placeholder ?? ''"
+                        [maxlength]="item.maxLength ?? null"
+                        [style.width]="width"
+                        />
+                    } @else if (item.type === 'upload') {
+                      <cx-upload class="avatar-uploader" [cxPreview]="preview" [formControlName]="item.name" [cxShowUploadList]="false">
+                        <nz-icon class="upload-icon" [nzType]="'plus'" />
+                        <div class="ant-upload-text">Upload</div>
+                      </cx-upload>
+                      <ng-template #preview>
+                        <img [src]="form.value[item.name]" alt="avatar" style="width: 100%" />
+                      </ng-template>
+                    } @else if (item.type === 'otp') {
+                      <nz-input-otp [formControlName]="item.name" [nzLength]="item.maxLength"></nz-input-otp>
+                    } @else {
+                      <input
+                        nz-input
+                        [formControlName]="item.name"
+                        [placeholder]="item.placeholder ?? ''"
+                        [maxlength]="item.maxLength ?? null"
+                        [style.width]="width"
+                        />
+                    }
+                  </ng-template>
                 </ng-template>
+              }
+              <ng-template #errorTpl let-control>
+                @for (e of control.errors | keyvalue; track e.key) {
+                  <ng-container *ngTemplateOutlet="errorItemTpl; context: { $implicit: control | error: item.errorTip : e.key }"></ng-container>
+                }
               </ng-template>
-            }
-            <ng-template #errorTpl let-control>
-              @for (e of control.errors | keyvalue; track e.key) {
-                <ng-container *ngTemplateOutlet="errorItemTpl; context: { $implicit: control | error: item.errorTip : e.key }"></ng-container>
+              <ng-template #errorItemTpl let-err>
+                {{ err }}
+                @if (err) {
+                  <br />
+                }
+              </ng-template>
+              @if (item.tooltip) {
+                <nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="item.tooltip"></nz-icon>
               }
-            </ng-template>
-            <ng-template #errorItemTpl let-err>
-              {{ err }}
-              @if (err) {
-                <br />
-              }
-            </ng-template>
-            @if (item.tooltip) {
-              <nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="item.tooltip"></nz-icon>
-            }
-          </div>
-        </nz-form-control>
-        @if (hasHelp && item.help) {
-          <div class="cx-form-help flexable align-flex-start" [style.gap.px]="8" nz-col [nzSpan]="12" [style.padding-left.px]="8">
-            <ng-container *ngTemplateOutlet="helpTpl; context: { $implicit: parseHelp(item.help) }"></ng-container>
-          </div>
-        }
-        <ng-template #helpTpl let-help>
-          <nz-icon class="help-icon normal" [nzType]="help.spin ? 'loading' : 'arrow-left'" [nzSpin]="help.spin" />
-          <nz-icon class="help-icon success" [nzType]="help.spin ? 'loading' : 'check-circle'" [nzSpin]="help.spin" />
-          <nz-icon class="help-icon error" [nzType]="help.spin ? 'loading' : 'close-circle'" [nzSpin]="help.spin" />
-          <div [innerHTML]="help.content | lf2br"></div>
-        </ng-template>
-      </nz-form-item>
+            </div>
+          </nz-form-control>
+          @if (hasHelp && item.help) {
+            <div class="cx-form-help flexable align-flex-start" [style.gap.px]="8" nz-col [nzSpan]="12" [style.padding-left.px]="8">
+              <ng-container *ngTemplateOutlet="helpTpl; context: { $implicit: parseHelp(item.help) }"></ng-container>
+            </div>
+          }
+          <ng-template #helpTpl let-help>
+            <nz-icon class="help-icon normal" [nzType]="help.spin ? 'loading' : 'arrow-left'" [nzSpin]="help.spin" />
+            <nz-icon class="help-icon success" [nzType]="help.spin ? 'loading' : 'check-circle'" [nzSpin]="help.spin" />
+            <nz-icon class="help-icon error" [nzType]="help.spin ? 'loading' : 'close-circle'" [nzSpin]="help.spin" />
+            <div [innerHTML]="help.content | lf2br"></div>
+          </ng-template>
+        </nz-form-item>
+      }
     }
 
     @if (agreement) {
@@ -125,13 +126,14 @@
           <button nz-button nzType="primary" type="button" (click)="submitForm($event)" [disabled]="agreement && !form.value['agree']">
             {{ submit ?? '提交' }}
           </button>
-          <nz-icon
-            nzType="question-circle"
-            nzTheme="outline"
-            nz-tooltip
-            [nzTooltipTitle]="'需要点击并同意思' + agreement.text"
-            *ngIf="agreement && !form.value['agree']"
-          />
+          @if (agreement && !form.value['agree']) {
+            <nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'需要点击并同意思' + agreement.text"
+              />
+          }
         </div>
       </nz-form-control>
     </nz-form-item>

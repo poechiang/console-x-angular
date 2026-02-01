@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,7 +20,6 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
     NzInputModule,
     NzUploadModule,
     NzIconModule,
-    CommonModule,
     NzFormModule,
     ReactiveFormsModule,
     NzDropDownModule,
@@ -28,8 +27,8 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
     NzAvatarModule,
     RouterModule,
     TranslateModule,
-    CxFormModule,
-  ],
+    CxFormModule
+],
   exportAs: 'cxProfiles',
   templateUrl: './profiles.component.html',
   styleUrl: './profiles.component.less',
