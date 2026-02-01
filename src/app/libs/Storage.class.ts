@@ -1,5 +1,3 @@
-import { withTags } from '@jeffchi/logger';
-const logger = withTags('Storage');
 export abstract class Storage {
   private constructor() {}
   /**
