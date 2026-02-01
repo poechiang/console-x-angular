@@ -1,15 +1,38 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent } from 'ng-zorro-antd/menu';
 import { filter, Subject, takeUntil } from 'rxjs';
+import { CxIcon } from 'src/app/core/icons/cx-icon.component';
 import { MenuItem, menuList } from './menus';
 
 @Component({
   selector: 'cx-app-sider',
   exportAs: 'cxAppSider',
+  imports: [
+    RouterModule,
+    NzIconModule,
+    NzButtonModule,
+    NgTemplateOutlet,
+    NzIconModule,
+    NzMenuDirective,
+    NzSubMenuComponent,
+    NzMenuItemComponent,
+    NzDropdownModule,
+    NzIconModule,
+    NzAvatarModule,
+    RouterModule,
+    TranslateModule,
+
+    CxIcon,
+  ],
   templateUrl: './app-sider.component.html',
   styleUrl: './app-sider.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class CxAppSiderComponent implements OnInit, OnDestroy {
   isCollapsed = false;

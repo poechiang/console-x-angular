@@ -1,8 +1,7 @@
-
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CxFormModule } from '@com/form/form.module';
+import { CxFormComponent } from '@com/form/form.component';
 import { Name20, Password16 } from '@const/regexp';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '@srv/auth.service';
@@ -26,9 +25,9 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
     NzIconModule,
     NzAvatarModule,
     RouterModule,
+    CxFormComponent,
     TranslateModule,
-    CxFormModule
-],
+  ],
   exportAs: 'cxProfiles',
   templateUrl: './profiles.component.html',
   styleUrl: './profiles.component.less',

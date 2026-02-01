@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'cx-theme-switch',
   exportAs: 'cxThemeSwitch',
   templateUrl: './theme-switch.component.html',
   styleUrl: './theme-switch.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class CxThemeSwitchComponent {
   @Input('cxForeColor') foreColor = '#353535';

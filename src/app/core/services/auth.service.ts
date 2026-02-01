@@ -5,9 +5,9 @@ import { Storage } from 'src/app/libs/Storage.class';
 import { HttpsService } from './https.service';
 import { StorageService } from './storage.service';
 
-const MAX_WAIT_HEARTBEAT_INTERVAL = 300000; // 5 minutes
+const MAX_WAIT_HEARTBEAT_INTERVAL = 3600000; // 1 hour
 const MIN_WAIT_HEARTBEAT_INTERVAL = 300; // 0.3 second
-const MIN_FROZEN_HEARTBEAT_INTERVAL = 240000; // 4 minutes
+const MIN_FROZEN_HEARTBEAT_INTERVAL = 1200000; // 20 minutes
 @Injectable({
   providedIn: 'root',
 })

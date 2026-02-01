@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit, ViewC
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CxCaptchaComponent } from '@com/captcha/captcha.component';
-import { CxFormModule } from '@com/form/form.module';
+import { CxFormComponent } from '@com/form/form.component';
 import { CxPageBodyComponent } from '@com/page-body/page-body.component';
 import { Name20, Password16 } from '@const/regexp';
 import { AuthService } from '@srv/auth.service';
@@ -30,9 +30,9 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
     NzSpaceModule,
     NzIconModule,
     NzTooltipModule,
-    CxFormModule,
     NzQRCodeModule,
     CxCaptchaComponent,
+    CxFormComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.less',

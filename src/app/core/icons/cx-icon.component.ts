@@ -9,28 +9,24 @@ class CxBaseOutlineIconComponent {
   @HostBinding('style.height.em') height = 1.3;
 }
 @Component({
-  standalone: true,
   selector: 'cx-home-icon',
   templateUrl: './home-outline.svg',
 })
 export class CxHomeOutlineIcon extends CxBaseOutlineIconComponent {}
 
 @Component({
-  standalone: true,
   selector: 'cx-overview-icon',
   templateUrl: './overview-outline.svg',
 })
 export class CxOverviewOutlineIcon extends CxBaseOutlineIconComponent {}
 
 @Component({
-  standalone: true,
   selector: 'cx-about-icon',
   templateUrl: './about-outline.svg',
 })
 export class CxAboutOutlineIcon extends CxBaseOutlineIconComponent {}
 
 @Component({
-  standalone: true,
   imports: [CxHomeOutlineIcon, CxOverviewOutlineIcon, CxAboutOutlineIcon],
   selector: 'cx-icon',
   template: `

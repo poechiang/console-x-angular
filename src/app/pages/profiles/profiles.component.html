@@ -9,9 +9,14 @@
   </nav>
 </aside>
 <main [style.flex]="'auto'">
+  <form nz-form>
+    <h2 class="hor-center">登录</h2>
+  </form>
+
   <cx-form
     [cxAutoPlaceholder]="true"
     [cxFormSchema]="formSchema"
+    [cxInitValue]="authSrv.me"
     (valueChange)="handleValueChange($event)"
     (submit)="submitForm($event)"
     [cxReset]="null"

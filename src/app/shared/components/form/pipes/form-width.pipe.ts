@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'width',
-  standalone: false,
 })
 export class CxFormWidthPipe implements PipeTransform {
   transform(value: CxFormSchema, ...args: unknown[]): unknown {

@@ -6,13 +6,13 @@
       }
       @if (!item.custom) {
         <nz-form-item
-        [class.auto-placeholder]="
-          autoPlaceholder && !item.placeholder && ['input', 'date', 'otp', 'password', 'text', 'select'].includes(item.type ?? 'input')
-        "
+          [class.auto-placeholder]="
+            autoPlaceholder && !item.placeholder && ['input', 'date', 'otp', 'password', 'text', 'select'].includes(item.type ?? 'input')
+          "
           [class.ng-empty]="!form.value[item.name]"
           nz-row
           nzAlign="top"
-          >
+        >
           <nz-form-label [nzRequired]="true" nz-col [nzSpan]="24">{{ item.label }}</nz-form-label>
           <nz-form-control nz-col [nzSpan]="hasHelp ? 12 : 24" [nzErrorTip]="errorTpl">
             <div class="flexable" [style.gap.px]="8">
@@ -23,15 +23,10 @@
                 <ng-template #fieldWrapTpl>
                   <!-- 如果指定了addOnBefore、prefix或suffix，则使用输入框组合 -->
                   @if (item.addOnBefore || item.prefix || item.suffix) {
-                    <nz-input-group
-                      [nzAddOnBefore]="item.addOnBefore ? addOnBefore : undefined"
-                      [nzPrefix]="item.prefix"
-                      [nzSuffix]="item.suffix"
-                      [style.width]="item | width"
-                      nzCompact
-                      >
+                    <nz-input-wrapper [nzPrefix]="item.prefix" [nzSuffix]="item.suffix" [style.width]="item | width" nzCompact>
+                      <ng-container *ngTemplateOutlet="addOnBefore"></ng-container>
                       <ng-container *ngTemplateOutlet="fieldTpl; context: { $implicit: item }"></ng-container>
-                    </nz-input-group>
+                    </nz-input-wrapper>
                     <ng-template #addOnBefore>
                       <ng-container *ngTemplateOutlet="item.addOnBefore; context: { $implicit: form }"></ng-container>
                     </ng-template>
@@ -54,7 +49,7 @@
                         [placeholder]="item.placeholder ?? ''"
                         [maxlength]="item.maxLength ?? null"
                         [style.width]="width"
-                        />
+                      />
                     } @else if (item.type === 'upload') {
                       <cx-upload class="avatar-uploader" [cxPreview]="preview" [formControlName]="item.name" [cxShowUploadList]="false">
                         <nz-icon class="upload-icon" [nzType]="'plus'" />
@@ -72,7 +67,7 @@
                         [placeholder]="item.placeholder ?? ''"
                         [maxlength]="item.maxLength ?? null"
                         [style.width]="width"
-                        />
+                      />
                     }
                   </ng-template>
                 </ng-template>
@@ -127,12 +122,7 @@
             {{ submit ?? '提交' }}
           </button>
           @if (agreement && !form.value['agree']) {
-            <nz-icon
-              nzType="question-circle"
-              nzTheme="outline"
-              nz-tooltip
-              [nzTooltipTitle]="'需要点击并同意思' + agreement.text"
-              />
+            <nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="'需要点击并同意思' + agreement.text" />
           }
         </div>
       </nz-form-control>

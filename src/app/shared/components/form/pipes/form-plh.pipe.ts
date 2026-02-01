@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'plh',
-  standalone: false,
 })
 export class CxFormPlhPipe implements PipeTransform {
   transform(value: CxFormSchema, showLabel?: boolean, ...args: unknown[]): string {

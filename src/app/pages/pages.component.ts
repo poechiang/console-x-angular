@@ -1,11 +1,11 @@
 import { Component, HostBinding } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CxLayoutsModule } from '@com/layouts.module';
+import { CxAppSiderComponent } from '@com/app-sider/app-sider.component';
 
 @Component({
   selector: 'cx-pages',
   exportAs: 'cxPages',
-  imports: [CxLayoutsModule, RouterOutlet],
+  imports: [CxAppSiderComponent, RouterOutlet],
   template: `
     <cx-app-sider></cx-app-sider>
 

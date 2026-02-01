@@ -1,18 +1,49 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, Validators } from '@angular/forms';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder, Validators } from '@angular/forms';
+import { CxUploadComponent } from '@com/cx-upload.component';
+import { CxLf2brPipe } from '@pip/lf2br.pipe';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { Subject } from 'rxjs';
+import { CxFormErrorPipe } from './pipes/form-error.pipe';
+import { CxFormWidthPipe } from './pipes/form-width.pipe';
 
 @Component({
   selector: 'cx-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NzButtonModule,
+    NzCheckboxModule,
+    NzFormModule,
+    NzInputModule,
+    NzSelectModule,
+    NzIconModule,
+    NzTooltipModule,
+    NgTemplateOutlet,
+    NzSpaceModule,
+    NzUploadModule,
+    NzDividerModule,
+    CxFormWidthPipe,
+    CxFormErrorPipe,
+    CxLf2brPipe,
+    CxUploadComponent,
+  ],
   exportAs: 'cxForm',
-  standalone: false,
   templateUrl: './form.component.html',
   styleUrl: './form.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CxFormComponent implements OnInit, OnDestroy {
-  @Input('cxLabel') label?: number | 'block' | 'inline';
   @Input('cxAutoPlaceholder') autoPlaceholder?: boolean;
   @Input('cxFormSchema') formSchema?: CxFormSchema[];
   @Input('cxAgreement') agreement?: { text: string; link: string; value?: boolean };
@@ -24,7 +55,6 @@ export class CxFormComponent implements OnInit, OnDestroy {
   @Output('reset') onReset = new EventEmitter<void>();
 
   private fb = inject(UntypedFormBuilder);
-  private cdr = inject(ChangeDetectorRef);
   private destroy$ = new Subject<void>();
 
   hasHelp = false; //是否需要显示说明列

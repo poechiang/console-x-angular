@@ -10,9 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, ValidationErrors } from '@angular/forms';
-import { CxFormModule } from '@com/form/form.module';
 
 import { Router } from '@angular/router';
+import { CxFormComponent } from '@com/form/form.component';
 import { CxPageBodyComponent } from '@com/page-body/page-body.component';
 import { HttpsService } from '@srv/https.service';
 import { debounce } from '@utl/debounce';
@@ -39,7 +39,7 @@ import { userFormSchema } from './schema';
     NzSelectModule,
     NzIconModule,
     NzTooltipModule,
-    CxFormModule,
+    CxFormComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.less',

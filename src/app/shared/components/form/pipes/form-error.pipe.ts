@@ -3,7 +3,6 @@ import { AbstractControl } from '@angular/forms';
 
 @Pipe({
   name: 'error',
-  standalone: false,
 })
 export class CxFormErrorPipe implements PipeTransform {
   transform(ctrl: AbstractControl, errorTip: CxFormSchema['errorTip'], key?: any, ...args: unknown[]): string | null {
